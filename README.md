@@ -47,6 +47,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 ```lua
 -- tailwind-tools.lua
 return {
+  event = "VeryLazy", -- Or what ever the event you want
   "luckasRanarison/tailwind-tools.nvim",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   opts = {} -- your configuration
@@ -73,7 +74,7 @@ Here is the default configuration:
 {
   document_color = {
     enabled = true, -- can be toggled by commands
-    kind = "inline", -- "inline" | "foreground" | "background"
+    kind = "inline", -- "inline" | "foreground" | "background" (inline option only for 0.10.0+)
     inline_symbol = "󰝤 ", -- only used in inline mode
     debounce = 200, -- in milliseconds, only applied in insert mode
   },
@@ -107,23 +108,17 @@ Utility function for highlighting colors in [nvim-cmp](https://github.com/hrsh7t
 ```lua
 -- nvim-cmp.lua
 return {
-  "hrsh7th/nvim-cmp",
-  dependencies = {
-    "luckasRanarison/tailwind-tools.nvim",
-    "onsails/lspkind-nvim",
-    -- ...
-  },
-  opts = function()
-    return {
-      -- ...
-      formatting = {
-        format = require("lspkind").cmp_format({
-          before = require("tailwind-tools.cmp").lspkind_format
-        },
-      })
-    }
-  end
-},
+	"hrsh7th/nvim-cmp",
+	dependencies = {
+		"luckasRanarison/tailwind-tools.nvim",
+		"onsails/lspkind-nvim",
+	},
+	opts = function(_, opts)
+		opts.formatting.format = require("lspkind").cmp_format({
+			before = require("tailwind-tools.cmp").lspkind_format,
+		})
+	end,
+}, 
 ```
 
 > [!TIP]
